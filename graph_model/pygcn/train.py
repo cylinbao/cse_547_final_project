@@ -40,9 +40,13 @@ torch.manual_seed(args.seed)
 if args.cuda:
     torch.cuda.manual_seed(args.seed)
 
+data_path = '/home/cyulin/Course/cse547/fp/graph_model/data_v4/'
+#data_set = 'politifact'
+data_set = 'gossipcop'
+
 # Load data
 #adj, features, labels, idx_train, idx_val, idx_test = load_data()
-adj, features, labels, idx_train, idx_val, idx_test = load_news_data()
+adj, features, labels, idx_train, idx_val, idx_test = load_news_data(data_path, data_set)
 #labels = load_news_data()
 #print(labels)
 #exit()

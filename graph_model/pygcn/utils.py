@@ -58,11 +58,11 @@ def load_data(path="../data/cora/", dataset="cora"):
     return adj, features, labels, idx_train, idx_val, idx_test
 
 
-def load_news_data(path="/home/cyulin/Course/cse547/fp/graph_model/data_v3/", dataset="politifact"):
+def load_news_data(path="/home/cyulin/Course/cse547/fp/graph_model/data_v4", dataset="politifact"):
     """Load fakeNewsNet dataset (politifact only for now)"""
     print('Loading {} dataset...'.format(dataset))
 
-    idx_features_labels = np.genfromtxt("{}{}.labels".format(path, dataset),
+    idx_features_labels = np.genfromtxt("{}/{}.labels".format(path, dataset),
                                         dtype=np.dtype(str))
     idx = np.array(idx_features_labels[:, 0], dtype=np.int32)
     features = sp.csr_matrix(idx_features_labels[:, 1:-1], dtype=np.float32)
@@ -101,9 +101,18 @@ def load_news_data(path="/home/cyulin/Course/cse547/fp/graph_model/data_v3/", da
     features = normalize(features)
     adj = normalize(adj + sp.eye(adj.shape[0]))
 
-    idx_train = range(550)
-    idx_val = range(550, 650)
-    idx_test = range(650, 750)
+    if dataset == 'politifact':
+        idx_train = range(500)
+        idx_val = range(500, 639)
+        idx_test = range(639, 799)
+    elif dataset == 'gossipcop':
+        idx_train = range(13324)
+        idx_val = range(13324, 16656)
+        idx_test = range(16656, 20821)
+    elif dataset == 'all':
+        idx_train = range(13324)
+        idx_val = range(13324, 16656)
+        idx_test = range(16656, 20821)
 
     features = torch.FloatTensor(np.array(features.todense()))
     labels = torch.LongTensor(np.where(labels)[1])
